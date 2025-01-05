@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from models.main_models import NoteDataModel
-from schemas.note_schemas import NoteDataCreate, NoteDataUpdate
+from ..models.main_models import NoteDataModel
+from ..schemas.note_schemas import NoteDataCreate, NoteDataUpdate
 
 def create_note(db: Session, note: NoteDataCreate):
     db_note = NoteDataModel(**note.model_dump())

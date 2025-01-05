@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from database.session import get_db
-from cruds.note_crud import create_note, read_note, update_note, delete_note
-from schemas.note_schemas import NoteDataCreate, NoteDataUpdate, NoteDataRead
+from ..database.session import get_db
+from ..cruds.note_crud import create_note, read_note, update_note, delete_note
+from ..schemas.note_schemas import NoteDataCreate, NoteDataUpdate, NoteDataRead
 
 router = APIRouter()
 

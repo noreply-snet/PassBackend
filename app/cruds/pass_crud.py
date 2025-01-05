@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from models.main_models import PassDataModel
-from schemas.pass_schemas import PassDataCreate, PassDataUpdate
+from ..models.main_models import PassDataModel
+from ..schemas.pass_schemas import PassDataCreate, PassDataUpdate
 
 def create_password(db: Session, password: PassDataCreate):
     db_password = PassDataModel(**password.model_dump())

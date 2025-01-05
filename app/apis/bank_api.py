@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from database.session import get_db
-from cruds.bank_crud import create_bank, read_bank, update_bank, delete_bank
-from schemas.bank_schemas import BankDataCreate, BankDataUpdate, BankDataRead
+from ..database.session import get_db
+from ..cruds.bank_crud import create_bank, read_bank, update_bank, delete_bank
+from ..schemas.bank_schemas import BankDataCreate, BankDataUpdate, BankDataRead
 
 router = APIRouter()
 

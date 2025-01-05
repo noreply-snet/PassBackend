@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from database.session import get_db
-from cruds.atm_crud import create_atm, read_atm, update_atm, delete_atm
-from schemas.atm_schemas import AtmDataCreate, AtmDataUpdate, AtmDataRead
+from ..database.session import get_db
+from ..cruds.atm_crud import create_atm, read_atm, update_atm, delete_atm
+from ..schemas.atm_schemas import AtmDataCreate, AtmDataUpdate, AtmDataRead
 
 router = APIRouter()
 

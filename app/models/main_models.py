@@ -1,5 +1,5 @@
-from database.session import Base
-from sqlalchemy import Column, Integer, String, Text, DateTime, ARRAY
+from ..database.session import Base
+from sqlalchemy import Column, Integer, String, Text, DateTime, JSON
 from datetime import datetime, timezone
 
 # ATM Database Model
@@ -44,7 +44,7 @@ class NoteDataModel(Base):
     __tablename__ = "notes_data"
     id = Column(Integer, primary_key=True, index=True)  # Auto-incrementing ID
     title = Column(String, nullable=False)             # Title of the note
-    tags = Column(ARRAY(String), nullable=False)       # Array of tags
+    tags = Column(JSON(String), nullable=False)       # Array of tags
     massage = Column(Text, nullable=False)             # Note message
     color = Column(String, nullable=False)             # Note color (e.g., hex code)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)

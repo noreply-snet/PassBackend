@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from database.session import get_db
-from cruds.pass_crud import create_password, read_password, update_password, delete_password
-from schemas.pass_schemas import PassDataCreate, PassDataUpdate, PassDataRead
+from ..database.session import get_db
+from ..cruds.pass_crud import create_password, read_password, update_password, delete_password
+from ..schemas.pass_schemas import PassDataCreate, PassDataUpdate, PassDataRead
 
 router = APIRouter()
 

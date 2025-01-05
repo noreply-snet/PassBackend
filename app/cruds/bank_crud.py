@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from models.main_models import BankDataModel
-from schemas.bank_schemas import BankDataCreate, BankDataUpdate
+from ..models.main_models import BankDataModel
+from ..schemas.bank_schemas import BankDataCreate, BankDataUpdate
 
 def create_bank(db: Session, bank: BankDataCreate):
     db_bank = BankDataModel(**bank.model_dump())

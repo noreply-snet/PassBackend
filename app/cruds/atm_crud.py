@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from models.main_models import AtmDataModel
-from schemas.atm_schemas import AtmDataCreate, AtmDataUpdate
+from ..models.main_models import AtmDataModel
+from ..schemas.atm_schemas import AtmDataCreate, AtmDataUpdate
 
 def create_atm(db: Session, atm: AtmDataCreate):
     db_atm = AtmDataModel(**atm.model_dump())
