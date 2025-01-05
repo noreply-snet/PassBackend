@@ -1,6 +1,9 @@
 from typing import Union
-
 from fastapi import FastAPI
+from app.database.session import Base,engine
+
+Base.metadata.create_all(bind=engine)
+
 
 app = FastAPI()
 
