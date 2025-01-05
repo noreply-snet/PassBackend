@@ -10,7 +10,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World"}
+    return {"বার্তা": "আমি বাংলাতে কথা বলতে পারি । "}
 
 
 # Include routes

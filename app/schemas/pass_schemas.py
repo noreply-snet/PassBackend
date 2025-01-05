@@ -1,11 +1,11 @@
-from pydantic import BaseModel, Field, HttpUrl
+from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional
 
 # Pydantic Schema for Create
 class PassDataCreate(BaseModel):
     acc_name: str = Field(..., example="Example Account")
-    url: Optional[HttpUrl] = Field(None, example="https://example.com")
+    url: Optional[str] = Field(None, example="https://example.com")
     loginid: str = Field(..., example="exampleuser")
     password: str = Field(..., example="password123")
     ass_email: Optional[str] = Field(None, example="example@example.com")

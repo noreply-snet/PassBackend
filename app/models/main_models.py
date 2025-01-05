@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 class AtmDataModel(Base):
     __tablename__ = "atm_data"
     id = Column(Integer, primary_key=True, index=True)
-    card_number = Column(Integer, nullable=False)
+    card_number = Column(String, nullable=False, unique=True)
     name = Column(String, nullable=False)
     exp_date = Column(String, nullable=False)
     cvv = Column(Integer, nullable=False)
@@ -48,3 +48,4 @@ class NoteDataModel(Base):
     massage = Column(Text, nullable=False)             # Note message
     color = Column(String, nullable=False)             # Note color (e.g., hex code)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+
