@@ -1,6 +1,6 @@
-from typing import Union
 from fastapi import FastAPI
 from app.database.session import Base,engine
+from app.apis import atm_api, bank_api, pass_api, note_api
 
 Base.metadata.create_all(bind=engine)
 
@@ -13,9 +13,12 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+# Include routes
+app.include_router(atm_api.router, prefix="/atm", tags=["atm"])
+app.include_router(bank_api.router, prefix="/bank", tags=["bank"])
+app.include_router(pass_api.router, prefix="/password", tags=["password"])
+app.include_router(note_api.router, prefix="/note", tags=["note"])
+
 
 
 predefined_roles = [
@@ -23,4 +26,10 @@ predefined_roles = [
     {"name": "Editor", "permissions": ["read_user", "write_user"]},
     {"name": "Visitor", "permissions": ["read_user"]},
 ]
+
+
+
+
+
+
 
