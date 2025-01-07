@@ -1,12 +1,26 @@
 from fastapi import FastAPI
 from app.database.session import Base,engine
 from app.apis import atm_api, bank_api, pass_api, note_api
+from fastapi.middleware.cors import CORSMiddleware
+
 
 Base.metadata.create_all(bind=engine)
 
 
 app = FastAPI()
 
+# Configure CORS middleware
+origins = [
+    "http://localhost:4200",  # Add your Angular frontend origin here
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_credentials=True,
+    allow_origins=origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def read_root():
@@ -26,6 +40,9 @@ predefined_roles = [
     {"name": "Editor", "permissions": ["read_user", "write_user"]},
     {"name": "Visitor", "permissions": ["read_user"]},
 ]
+
+
+
 
 
 
