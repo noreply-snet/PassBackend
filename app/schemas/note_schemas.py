@@ -10,11 +10,11 @@ class NoteDataCreate(BaseModel):
     color: str = Field(..., example="#FF5733")  # Example hex color code
 
 # Pydantic Schema for Update
-class NoteDataUpdate(NoteDataCreate):
+class NoteData(NoteDataCreate):
     id: int
 
 # Pydantic Schema for Read
-class NoteDataRead(NoteDataUpdate):
+class NoteDataRead(NoteData):
     created_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
 
     class Config:

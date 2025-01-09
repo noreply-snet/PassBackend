@@ -12,11 +12,11 @@ class PassDataCreate(BaseModel):
     notes: Optional[str] = Field(None, example="These are some additional notes.")
 
 # Pydantic Schema for Update
-class PassDataUpdate(PassDataCreate):
+class PassData(PassDataCreate):
     id: int
 
 # Pydantic Schema for Read
-class PassDataRead(PassDataUpdate):
+class PassDataRead(PassData):
     created_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
 
     class Config:

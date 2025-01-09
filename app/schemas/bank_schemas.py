@@ -15,11 +15,11 @@ class BankDataCreate(BaseModel):
     rmn: str = Field(..., example="9876543210")
 
 # Pydantic Schema for Update
-class BankDataUpdate(BankDataCreate):
+class BankData(BankDataCreate):
     id: int
 
 # Pydantic Schema for Read
-class BankDataRead(BankDataUpdate):
+class BankDataRead(BankData):
     created_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
 
     class Config:

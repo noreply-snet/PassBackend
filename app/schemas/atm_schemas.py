@@ -11,12 +11,12 @@ class AtmDataCreate(BaseModel):
 
 
 # Pydantic Schema for Update
-class AtmDataUpdate(AtmDataCreate):
+class AtmData(AtmDataCreate):
     id: int
 
 
 # Pydantic Schema for Read
-class AtmDataRead(AtmDataUpdate):
+class AtmDataRead(AtmData):
     created_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
 
     class Config:
