@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from ..models.main_models import BankDataModel
-from ..schemas.bank_schemas import BankDataCreate, BankDataUpdate
+from ..schemas.bank_schemas import BankDataCreate, BankData
 
 def create_bank(db: Session, bank: BankDataCreate):
     db_bank = BankDataModel(**bank.model_dump())
@@ -23,7 +23,7 @@ def read_bank(db: Session, bank_id: int):
         raise HTTPException(status_code=404, detail="Bank data not found")
     return db_bank
 
-def update_bank(db: Session, bank: BankDataUpdate):
+def update_bank(db: Session, bank: BankData):
     db_bank = db.query(BankDataModel).filter(BankDataModel.id == bank.id).first()
     if not db_bank:
         raise HTTPException(status_code=404, detail="Bank data not found")

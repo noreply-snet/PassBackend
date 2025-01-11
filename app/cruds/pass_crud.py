@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from ..models.main_models import PassDataModel
-from ..schemas.pass_schemas import PassDataCreate, PassDataUpdate
+from ..schemas.pass_schemas import PassDataCreate, PassData
 
 def create_password(db: Session, password: PassDataCreate):
     db_password = PassDataModel(**password.model_dump())
@@ -23,7 +23,7 @@ def read_password(db: Session, password_id: int):
         raise HTTPException(status_code=404, detail="Password data not found")
     return db_password
 
-def update_password(db: Session, password: PassDataUpdate):
+def update_password(db: Session, password: PassData):
     db_password = db.query(PassDataModel).filter(PassDataModel.id == password.id).first()
     if not db_password:
         raise HTTPException(status_code=404, detail="Password data not found")

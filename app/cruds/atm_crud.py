@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException , status
 from fastapi.responses import JSONResponse
 from ..models.main_models import AtmDataModel
-from ..schemas.atm_schemas import AtmDataCreate, AtmDataUpdate
+from ..schemas.atm_schemas import AtmDataCreate, AtmData
 
 def create_atm(db: Session, atm: AtmDataCreate):
     db_atm = AtmDataModel(**atm.model_dump())
@@ -23,7 +23,7 @@ def read_atm(db: Session, atm_id: int):
         raise HTTPException(status_code=404, detail="ATM data not found")
     return db_atm
 
-def update_atm(db: Session, atm: AtmDataUpdate):
+def update_atm(db: Session, atm: AtmData):
     db_atm = db.query(AtmDataModel).filter(AtmDataModel.id == atm.id).first()
     if not db_atm:
         raise HTTPException(status_code=404, detail="ATM data not found")

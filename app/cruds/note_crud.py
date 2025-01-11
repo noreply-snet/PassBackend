@@ -2,7 +2,7 @@ from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from ..models.main_models import NoteDataModel
-from ..schemas.note_schemas import NoteDataCreate, NoteDataUpdate
+from ..schemas.note_schemas import NoteDataCreate, NoteData
 
 def create_note(db: Session, note: NoteDataCreate):
     db_note = NoteDataModel(**note.model_dump())
@@ -23,7 +23,7 @@ def read_note(db: Session, note_id: int):
         raise HTTPException(status_code=404, detail="Note data not found")
     return db_note
 
-def update_note(db: Session, note: NoteDataUpdate):
+def update_note(db: Session, note: NoteData):
     db_note = db.query(NoteDataModel).filter(NoteDataModel.id == note.id).first()
     if not db_note:
         raise HTTPException(status_code=404, detail="Note data not found")
