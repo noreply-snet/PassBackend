@@ -7,7 +7,7 @@ class NoteDataCreate(BaseModel):
     title: str = Field(..., example="Example Title")
     tags: List[str] = Field(..., example=["tag1", "tag2"])
     massage: str = Field(..., example="This is a note message.")
-    color: str = Field(..., example="#FF5733")  # Example hex color code
+    color: str = Field(..., example="red")  # Example hex color code
 
 # Pydantic Schema for Update
 class NoteData(NoteDataCreate):

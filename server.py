@@ -30,7 +30,7 @@ def read_root():
 # Include routes
 app.include_router(atm_api.router, prefix="/atm", tags=["atm"])
 app.include_router(bank_api.router, prefix="/bank", tags=["bank"])
-app.include_router(pass_api.router, prefix="/password", tags=["password"])
+app.include_router(pass_api.router, prefix="/pass", tags=["pass"])
 app.include_router(note_api.router, prefix="/note", tags=["note"])
 
 
