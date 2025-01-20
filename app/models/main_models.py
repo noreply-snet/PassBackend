@@ -1,6 +1,10 @@
 from ..database.session import Base
-from sqlalchemy import Column, Integer, String, Text, DateTime, JSON
+from sqlalchemy import Column, Integer, String, Text, DateTime, JSON, func
 from datetime import datetime, timezone
+from uuid import UUID
+import uuid
+
+
 
 # ATM Database Model
 class AtmDataModel(Base):
@@ -49,3 +53,14 @@ class NoteDataModel(Base):
     color = Column(String, nullable=False)             # Note color (e.g., hex code)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
 
+
+# Notes Database Model
+class User(Base): 
+    __tablename__ = "users" 
+    id = Column(Integer, primary_key=True, index=True)  # Auto-incrementing ID
+    # u_id = Column(UUID(as_uuid=True),index=True, default=uuid.uuid4) # Only for Postgres database
+    u_id = Column(String, index=True, default=lambda: str(uuid.uuid4()))
+    email = Column(String, unique=True, index=True)
+    password = Column(String) 
+    created_at = Column(DateTime, server_default=func.now()) 
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())

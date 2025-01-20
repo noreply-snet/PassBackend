@@ -1,0 +1,18 @@
+
+
+**Database Structure (Conceptual):**
+
+
+| Column             | Data Type        | Description                                                                                                                                                                                                                                                           |
+| ------------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `u_id`             | UUID             | Unique identifier for each user.                                                                                                                                                                                                                                      |
+| `username`         | VARCHAR(255)     | User's username or email address.                                                                                                                                                                                                                                         |
+| `password_hash`    | VARCHAR(255)     | Hashed and salted master password using a strong hashing algorithm (e.g., Argon2id). *Crucially, this is NOT used to encrypt the vault.*                                                                                                                                |
+| `password_salt`    | BYTEA            | Random salt used for password hashing.                                                                                                                                                                                                                                 |
+| `created_at`       | TIMESTAMP        | Timestamp of account creation.                                                                                                                                                                                                                                          |
+| `updated_at`       | TIMESTAMP        | Timestamp of last account update.                                                                                                                                                                                                                                       |
+| `recovery_email`   | VARCHAR(255)     | Recovery email address (used for password resets, if implemented). Consider encrypting this as well.        
+
+
+Add Later !!
+| `two_factor_data`  | JSONB            | Stores 2FA configuration (e.g., TOTP secret, backup codes). Encrypt this data.                                                                                                                                                                                          |

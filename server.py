@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.database.session import Base,engine
-from app.apis import atm_api, bank_api, pass_api, note_api
+from app.apis import atm_api, bank_api, pass_api, note_api, user_api
 from fastapi.middleware.cors import CORSMiddleware
 
 
@@ -32,6 +32,7 @@ app.include_router(atm_api.router, prefix="/atm", tags=["atm"])
 app.include_router(bank_api.router, prefix="/bank", tags=["bank"])
 app.include_router(pass_api.router, prefix="/pass", tags=["pass"])
 app.include_router(note_api.router, prefix="/note", tags=["note"])
+app.include_router(user_api.router, prefix="/user", tags=["user"])
 
 
 
