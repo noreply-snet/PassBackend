@@ -6,12 +6,7 @@ from ..models.main_models import User
 from ..schemas.user_schemas import UserCreate, UserUpdateEmail, UserUpdatePassword
 from sqlalchemy.exc import IntegrityError
 from uuid import UUID
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-
-def get_password_hash(password):
-    return pwd_context.hash(password)
+from ..services.utills import get_password_hash
 
 
 def create_user(db: Session, user: UserCreate):
@@ -48,6 +43,12 @@ def read_user(db: Session, user_id: UUID):
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
+
+def read_user_by_email(db: Session, email: str):
+    user = db.query(User).filter(User.email == email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    return user
 
 def update_user_email(db: Session, user: UserUpdateEmail):
     db_user = db.query(User).filter(User.u_id == str(user.u_id)).first()
