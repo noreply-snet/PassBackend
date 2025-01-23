@@ -1,11 +1,15 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
+from app.core import security
 from ..database.session import get_db
 from ..cruds.bank_crud import create_bank, read_bank, update_bank, delete_bank, read_all_banks
 from ..schemas.bank_schemas import BankDataCreate, BankData
 from typing import List
 
-router = APIRouter()
+router = APIRouter(
+    dependencies=[Depends(security.get_current_user)]
+)
 
 @router.post("/", response_model=BankData)
 def create_bank_route(bank: BankDataCreate, db: Session = Depends(get_db)):

@@ -17,7 +17,7 @@ async def login_for_access_token(
     db: Session = Depends(get_db), form_data: OAuth2PasswordRequestForm = Depends()
 ):
     user = security.authenticate_user(db, form_data.username, form_data.password)
-    if user is None :
+    if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
@@ -54,8 +54,6 @@ lockRouter = APIRouter(
 )
 
 
-
-
 @lockRouter.get("/cleanup-tokens")
 def cleanup_token(db: Session = Depends(get_db)):
     cleanup_expired_tokens(db)
@@ -70,9 +68,13 @@ def get_exp_token(db: Session = Depends(get_db)):
         # Log the exception if necessary
         raise HTTPException(status_code=500, detail=str(e))
 
+
 @lockRouter.post("/logout")
 def logout(token: str = Depends(security.oauth2_scheme), db: Session = Depends(get_db)):
     payload = security.jwt_manager.verify_token(db=db, token=token)
     expires_at = datetime.fromtimestamp(payload["exp"], tz=timezone.utc)
     revoke_token(db=db, token_id=payload["jti"], expires_at=expires_at)
     return {"message": "Logged out successfully"}
+
+
+router.include_router(lockRouter)

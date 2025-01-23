@@ -54,7 +54,6 @@ app.include_router(pass_api.router, prefix="/pass", tags=["pass"])
 app.include_router(note_api.router, prefix="/note", tags=["note"])
 app.include_router(user_api.router, prefix="/user", tags=["user"])
 app.include_router(auth_api.router, prefix="/auth", tags=["auth"])
-app.include_router(auth_api.lockRouter, prefix="/lock", tags=["lock"])
 
 
 predefined_roles = [

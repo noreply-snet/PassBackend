@@ -1,11 +1,15 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
+from app.core import security
 from ..database.session import get_db
 from ..cruds.note_crud import create_note, read_note, update_note, delete_note, read_all_notes
 from ..schemas.note_schemas import NoteDataCreate, NoteData
 from typing import List
 
-router = APIRouter()
+router = APIRouter(
+    dependencies=[Depends(security.get_current_user)]
+)
 
 @router.post("/", response_model=NoteData)
 def create_note_route(note: NoteDataCreate, db: Session = Depends(get_db)):

@@ -1,11 +1,15 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
+from app.core import security
 from ..database.session import get_db
 from ..cruds.atm_crud import create_atm, read_atm, update_atm, delete_atm, read_all_atms
 from ..schemas.atm_schemas import AtmDataCreate, AtmData
 from typing import List
 
-router = APIRouter()
+router = APIRouter(
+    dependencies=[Depends(security.get_current_user)]
+)
 
 @router.post("/", response_model=AtmData)
 def create_atm_route(atm: AtmDataCreate, db: Session = Depends(get_db)):

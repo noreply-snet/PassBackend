@@ -1,11 +1,15 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+
+from ..core import security
 from ..database.session import get_db
 from ..cruds.pass_crud import create_password, read_password, update_password, delete_password, read_all_passwords
 from ..schemas.pass_schemas import PassDataCreate, PassData
 from typing import List
 
-router = APIRouter()
+router = APIRouter(
+    dependencies=[Depends(security.get_current_user)]
+)
 
 @router.post("/", response_model=PassData)
 def create_password_route(password: PassDataCreate, db: Session = Depends(get_db)):
