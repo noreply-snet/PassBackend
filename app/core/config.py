@@ -13,8 +13,8 @@ class Settings:
     # Only for Development Work 
     SECRET: str = "your_secret_key"
     ALGO: str = "HS256"
-    ACCESS_EXPIRE: int = 1
-    REFRESH_EXPIRE: int = 1
+    ACCESS_EXPIRE: int = 10
+    REFRESH_EXPIRE: int = 10
 
 
 jwt_settings = Settings()

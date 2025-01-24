@@ -21,3 +21,10 @@ class PassDataRead(PassData):
 
     class Config:
         orm_mode = True
+
+# Pydantic Schema for Read Full Password Data
+class PassDataFull(PassData):
+    updated_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
+
+    class Config:
+        orm_mode = True

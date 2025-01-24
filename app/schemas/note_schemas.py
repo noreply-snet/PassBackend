@@ -6,7 +6,7 @@ from typing import List
 class NoteDataCreate(BaseModel):
     title: str = Field(..., example="Example Title")
     tags: List[str] = Field(..., example=["tag1", "tag2"])
-    massage: str = Field(..., example="This is a note message.")
+    message: str = Field(..., example="This is a note message.")
     color: str = Field(..., example="red")  # Example hex color code
 
 # Pydantic Schema for Update
@@ -16,6 +16,13 @@ class NoteData(NoteDataCreate):
 # Pydantic Schema for Read
 class NoteDataRead(NoteData):
     created_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
+    
+    class Config:
+        orm_mode = True
+
+# Pydantic Schema for Read Full Note Data
+class NoteDataFull(NoteData):
+    updated_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
 
     class Config:
         orm_mode = True

@@ -21,9 +21,9 @@ class JWTManager:
     def create_token(data: dict, token_type: str, jwi: str = None) -> str:
         to_encode = data.copy()
         if token_type == "access":
-            expire = datetime.now(timezone.utc) + timedelta(minutes=settings.ACCESS_EXPIRE)
+            expire = datetime.now(timezone.utc) + timedelta(days=settings.ACCESS_EXPIRE)
         elif token_type == "refresh":
-            expire = datetime.now(timezone.utc) + timedelta(minutes=settings.REFRESH_EXPIRE)
+            expire = datetime.now(timezone.utc) + timedelta(days=settings.REFRESH_EXPIRE)
         else:
             raise ValueError("Invalid token type. Must be 'access' or 'refresh'.")
         

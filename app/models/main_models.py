@@ -1,10 +1,8 @@
-from ..database.session import Base
-from sqlalchemy import Column, Integer, String, Text, DateTime, JSON, func
+from sqlalchemy import Column, Integer, String, Text, DateTime, JSON, func, ForeignKey
 from datetime import datetime, timezone
-from uuid import UUID
+from sqlalchemy.orm import relationship
 import uuid
-
-
+from ..database.session import Base
 
 # ATM Database Model
 class AtmDataModel(Base):
@@ -15,6 +13,9 @@ class AtmDataModel(Base):
     exp_date = Column(String, nullable=False)
     cvv = Column(Integer, nullable=False)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    user_u_id = Column(String, ForeignKey('users.u_id'))
+    user = relationship("User", back_populates="atms")
 
 # Bank Database Model
 class BankDataModel(Base):
@@ -30,6 +31,9 @@ class BankDataModel(Base):
     note = Column(Text, nullable=True)              # Additional notes
     rmn = Column(String, nullable=False)            # Registered mobile number
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    user_u_id = Column(String, ForeignKey('users.u_id'))
+    user = relationship("User", back_populates="banks")
 
 # Passwords Database Model
 class PassDataModel(Base):
@@ -42,6 +46,9 @@ class PassDataModel(Base):
     ass_email = Column(String, nullable=True)          # Associated email
     notes = Column(Text, nullable=True)                # Additional notes
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    user_u_id = Column(String, ForeignKey('users.u_id'))
+    user = relationship("User", back_populates="passwords")
 
 # Notes Database Model
 class NoteDataModel(Base):
@@ -49,19 +56,23 @@ class NoteDataModel(Base):
     id = Column(Integer, primary_key=True, index=True)  # Auto-incrementing ID
     title = Column(String, nullable=False)             # Title of the note
     tags = Column(JSON(String), nullable=False)       # Array of tags
-    massage = Column(Text, nullable=False)             # Note message
+    message = Column(Text, nullable=False)             # Note message
     color = Column(String, nullable=False)             # Note color (e.g., hex code)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+    user_u_id = Column(String, ForeignKey('users.u_id'))
+    user = relationship("User", back_populates="notes")
 
-
-# Notes Database Model
+# User Database Model
 class User(Base): 
     __tablename__ = "users" 
     id = Column(Integer, primary_key=True, index=True)  # Auto-incrementing ID
-    # u_id = Column(UUID(as_uuid=True),index=True, default=uuid.uuid4) # Only for Postgres database
-    u_id = Column(String, index=True, default=lambda: str(uuid.uuid4()))
+    u_id = Column(String, unique=True, index=True, default=lambda: str(uuid.uuid4()))
     email = Column(String, unique=True, index=True)
     password = Column(String) 
     created_at = Column(DateTime, server_default=func.now()) 
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
-    
+    atms = relationship("AtmDataModel", back_populates="user")
+    banks = relationship("BankDataModel", back_populates="user")
+    passwords = relationship("PassDataModel", back_populates="user")
+    notes = relationship("NoteDataModel", back_populates="user")

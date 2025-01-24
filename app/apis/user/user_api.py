@@ -3,10 +3,10 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from ..core import security
-from ..database.session import get_db
-from ..cruds import user_crud as crud
-from ..schemas import user_schemas as schemas
+from ...core import security
+from ...database.session import get_db
+from ...cruds import user_crud as crud
+from ...schemas import user_schemas as schemas
 
 router = APIRouter()
 
@@ -40,13 +40,6 @@ def update_user_pass(user: schemas.UserUpdatePassword, db: Session = Depends(get
     db_user = crud.update_user_password(db, user)
     return db_user
 
-adminRouter = APIRouter(
-    dependencies=[Depends(security.get_current_user)]
-)
-
-@adminRouter.delete("/{user_id}")
-def delete_user(user_id: UUID, db: Session = Depends(get_db)):
-    return crud.delete_user(db=db, user_id=user_id)
-
 router.include_router(lockedRouter)
-router.include_router(adminRouter)
+
+

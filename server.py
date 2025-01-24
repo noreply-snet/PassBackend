@@ -1,8 +1,9 @@
 from contextlib import asynccontextmanager
 from threading import Thread
 from fastapi import FastAPI
+from app.apis.auth import auth_api
 from app.database.session import Base, engine
-from app.apis import atm_api, auth_api, bank_api, pass_api, note_api, user_api
+from app.apis.user import atm_api, bank_api, pass_api, note_api, user_api
 from fastapi.middleware.cors import CORSMiddleware
 from app.services.schedule_task import run_scheduler
 
