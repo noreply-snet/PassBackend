@@ -12,6 +12,8 @@ def create_superuser(db: Session, email: str, password: str):
             email=email,
             passwords=get_password_hash(password),
             is_superuser=True,
+            is_staff=True,
+            is_active=True
         )
         db.add(user)
         db.commit()
