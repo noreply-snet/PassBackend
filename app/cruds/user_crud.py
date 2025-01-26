@@ -29,6 +29,32 @@ def create_user(db: Session, user: UserCreate):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error"
         ) from e
 
+def create_super_user(db: Session, email: str, password: str):
+    hashed_password = get_password_hash(password)
+    db_user = User(
+        email=email, 
+        password=hashed_password,
+        is_superuser=True,
+        is_staff=True,
+        is_active=True
+        )
+    try:
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+        return db_user
+    except IntegrityError as e:
+        # Assuming the duplicate email constraint is on the 'email' column
+        if "email" in str(e):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email already registered",
+            )
+        # Handle other IntegrityErrors if necessary, or re-raise
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error"
+        ) from e
+
 
 def read_all_users(db: Session):
     users = db.query(User).all()

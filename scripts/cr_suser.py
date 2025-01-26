@@ -1,37 +1,20 @@
 import sys
+import os
+
+# Add project root to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+
 from getpass import getpass
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
-from app.database.session import get_db
-from app.models.main_models import User
-from app.services.utills import get_password_hash
 
-def create_superuser(db: Session, email: str, password: str):
-    try:
-        user = User(
-            email=email,
-            passwords=get_password_hash(password),
-            is_superuser=True,
-            is_staff=True,
-            is_active=True
-        )
-        db.add(user)
-        db.commit()
-        db.refresh(user)
-        print(f"Superuser with email {email} created successfully.")
-    except IntegrityError:
-        db.rollback()
-        print("Error: A user with that email already exists.")
-    except SQLAlchemyError as e:
-        db.rollback()
-        print(f"Database error: {e}")
-    except Exception as e:
-        db.rollback()
-        print(f"Unexpected error: {e}")
+from app.cruds.user_crud import create_super_user
+from app.database.session import get_db
 
 def main():
     try:
-        db = get_db()
+        db = next(get_db())
 
         while True:
             try:
@@ -59,7 +42,7 @@ def main():
                     print("Passwords do not match. Please try again.")
                     continue
 
-                create_superuser(db, email, password)
+                create_super_user(db, email, password)
                 break
             except Exception as e:
                 print(f"An error occurred: {e}")
