@@ -1,8 +1,7 @@
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
-from passlib.context import CryptContext
 from sqlalchemy.orm import Session
-from ..models.main_models import User
+from ..models.user_models import User
 from ..schemas.user_schemas import UserCreate, UserUpdateEmail, UserUpdatePassword
 from sqlalchemy.exc import IntegrityError
 from uuid import UUID
@@ -11,7 +10,7 @@ from ..services.utills import get_password_hash
 
 def create_user(db: Session, user: UserCreate):
     hashed_password = get_password_hash(user.password)
-    db_user = User(email=user.email, password=hashed_password)
+    db_user = User(email=user.email, password=hashed_password,)
     try:
         db.add(db_user)
         db.commit()

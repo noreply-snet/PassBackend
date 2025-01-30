@@ -2,6 +2,7 @@ from contextlib import asynccontextmanager
 from threading import Thread
 from fastapi import FastAPI
 from app.apis.auth import auth_api
+from app.core.setup_db import init_db
 from app.database.session import Base, engine
 from app.apis.user import atm_api, bank_api, pass_api, note_api, user_api
 from fastapi.middleware.cors import CORSMiddleware
@@ -12,9 +13,11 @@ Base.metadata.create_all(bind=engine)
 
 
 @asynccontextmanager
-async def lifespan():
-    # Startup logic here
+async def lifespan(app: FastAPI):  # Accept the app instance
     print("Application startup")
+
+    # Initialize the database
+    init_db()
 
     # Start the scheduler in a separate thread
     scheduler_thread = Thread(target=run_scheduler, daemon=True)
@@ -22,11 +25,10 @@ async def lifespan():
 
     yield  # Yield control back to FastAPI
 
-    # Shutdown logic here
     print("Application shutdown")
 
-
-app = FastAPI()
+# Attach lifespan to FastAPI
+app = FastAPI(lifespan=lifespan)
 
 
 # Configure CORS middleware
@@ -56,9 +58,3 @@ app.include_router(note_api.router, prefix="/note", tags=["note"])
 app.include_router(user_api.router, prefix="/user", tags=["user"])
 app.include_router(auth_api.router, prefix="/auth", tags=["auth"])
 
-
-predefined_roles = [
-    {"name": "Admin", "permissions": ["read_user", "write_user", "delete_user"]},
-    {"name": "Editor", "permissions": ["read_user", "write_user"]},
-    {"name": "Visitor", "permissions": ["read_user"]},
-]
