@@ -37,7 +37,7 @@ class User(Base):
 
     def __repr__(self):
         return (
-            f"<User(email='{self.email}', is_superuser={self.is_superuser}, "
+            f"<User(email='{self.email}', is_superuser={self.is_superuser},"
             f"is_active={self.is_active}, is_staff={self.is_staff})>"
         )
 

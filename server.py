@@ -1,12 +1,14 @@
 from contextlib import asynccontextmanager
 from threading import Thread
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.apis.auth import auth_api
 from app.core.setup_db import init_db
 from app.database.session import Base, engine
 from app.apis.user import atm_api, bank_api, pass_api, note_api, user_api
-from fastapi.middleware.cors import CORSMiddleware
 from app.services.schedule_task import run_scheduler
+from app.apis.admin import role_permission_api,manage_user_api
 
 
 Base.metadata.create_all(bind=engine)
@@ -26,6 +28,7 @@ async def lifespan(app: FastAPI):  # Accept the app instance
     yield  # Yield control back to FastAPI
 
     print("Application shutdown")
+
 
 # Attach lifespan to FastAPI
 app = FastAPI(lifespan=lifespan)
@@ -58,3 +61,6 @@ app.include_router(note_api.router, prefix="/note", tags=["note"])
 app.include_router(user_api.router, prefix="/user", tags=["user"])
 app.include_router(auth_api.router, prefix="/auth", tags=["auth"])
 
+# Include routes for Admin
+# app.include_router(role_permission_api.adminRouter, prefix="/access", tags=["access"])
+# app.include_router(manage_user_api.adminRouter, prefix="/manage", tags=["manage"])

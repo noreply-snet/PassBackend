@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
-from ..models.user_models import User
+from ..models.user_models import Role, User
 from ..schemas.user_schemas import UserCreate, UserUpdateEmail, UserUpdatePassword
 from sqlalchemy.exc import IntegrityError
 from uuid import UUID
@@ -111,3 +111,26 @@ def delete_user(db: Session, user_id: int):
         content={"msg": f"User with ID {user_id} has been deleted successfully."},
         status_code=status.HTTP_200_OK,
     )
+
+# ---------------------- Assign role to user crud ----------------------
+
+def assign_role_to_user(db: Session, user_id: str, role_id: int):
+    # Get user by UUID
+    user = db.query(User).filter(User.u_id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Get role
+    role = db.query(Role).filter(Role.id == role_id).first()
+    if not role:
+        raise HTTPException(status_code=404, detail="Role not found")
+    
+    # Check if user already has the role
+    if role in user.roles:
+        raise HTTPException(status_code=400, detail="User already has this role")
+    
+    # Assign role
+    user.roles.append(role)
+    db.commit()
+    return {"message": "Role assigned successfully"}
+
