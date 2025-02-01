@@ -116,7 +116,7 @@ def update_user_password(db: Session, user: UserUpdatePassword):
     return db_user
 
 
-def delete_user(db: Session, user_id: int):
+def delete_user(db: Session, user_id: str):
     user = db.query(User).filter(User.u_id == str(user_id)).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
@@ -132,7 +132,7 @@ def delete_user(db: Session, user_id: int):
 
 def assign_role_to_user(db: Session, user_id: str, role_id: int):
     # Get user by UUID with eager loading of roles to optimize role assignment
-    user = db.query(User).options(joinedload(User.roles)).filter(User.u_id == user_id).first()
+    user = db.query(User).options(joinedload(User.roles)).filter(User.u_id == str(user_id)).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
