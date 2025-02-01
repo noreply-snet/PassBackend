@@ -15,7 +15,7 @@ class RoleUpdate(RoleBase):
 class Role(RoleBase):
     id: int
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # ------------------- Permission Schemas ---------------------
 
@@ -32,4 +32,4 @@ class PermissionUpdate(PermissionBase):
 class Permission(PermissionBase):
     id: int
     class Config:
-        orm_mode = True
+        from_attributes = True

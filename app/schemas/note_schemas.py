@@ -18,11 +18,11 @@ class NoteDataRead(NoteData):
     created_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
     
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Pydantic Schema for Read Full Note Data
 class NoteDataFull(NoteData):
     updated_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
 
     class Config:
-        orm_mode = True
+        from_attributes = True

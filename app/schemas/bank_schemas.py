@@ -23,11 +23,11 @@ class BankDataRead(BankData):
     created_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 # Pydantic Schema for Read ALL Data
 class BankDataFull(BankData):
     updated_at: datetime = Field(..., example="2023-01-05T12:34:56Z")
 
     class Config:
-        orm_mode = True
+        from_attributes = True
