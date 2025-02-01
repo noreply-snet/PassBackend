@@ -27,16 +27,17 @@ roleRouter = APIRouter(
 def create_role(role: RoleCreate, db: Session = Depends(get_db)):
     return cruds.create_role(db, role)
 
+# to prevent /all route conflict make sure the static route is placed before the dynamic route
+@roleRouter.get("/all", response_model=List[Role]) 
+def read_roles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return cruds.get_all_roles(db, skip, limit)
+
 @roleRouter.get("/{role_id}", response_model=Role)
 def read_role(role_id: int, db: Session = Depends(get_db)):
     role = cruds.get_role(db, role_id)
     if not role:
         raise HTTPException(status_code=404, detail="Role not found")
     return role
-
-@roleRouter.get("/all", response_model=List[Role]) 
-def read_roles(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return cruds.get_all_roles(db, skip=skip, limit=limit)
 
 @roleRouter.put("/{role_id}", response_model=Role)
 def update_role(role_id: int, role: RoleUpdate, db: Session = Depends(get_db)):
@@ -63,6 +64,12 @@ permissionRouter = APIRouter(
 def create_permission(permission: PermissionCreate, db: Session = Depends(get_db)):
     return cruds.create_permission(db, permission)
 
+# to prevent /all route conflict make sure the static route is placed before the dynamic route
+@permissionRouter.get("/all", response_model=list[Permission])
+def read_permissions(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    return cruds.get_all_permissions(db, skip=skip, limit=limit)
+
+
 @permissionRouter.get("/{permission_id}", response_model=Permission)
 def read_permission(permission_id: int, db: Session = Depends(get_db)):
     permission = cruds.get_permission(db, permission_id)
@@ -70,16 +77,9 @@ def read_permission(permission_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Permission not found")
     return permission
 
-@permissionRouter.get("/all", response_model=list[Permission])
-def read_permissions(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    return cruds.get_all_permissions(db, skip=skip, limit=limit)
 
 @permissionRouter.put("/{permission_id}", response_model=Permission)
-def update_permission(
-    permission_id: int, 
-    permission: PermissionUpdate, 
-    db: Session = Depends(get_db)
-):
+def update_permission(permission_id: int, permission: PermissionUpdate, db: Session = Depends(get_db)):
     updated_permission = cruds.update_permission(db, permission_id, permission)
     if not updated_permission:
         raise HTTPException(status_code=404, detail="Permission not found")
