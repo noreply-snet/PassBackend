@@ -1,18 +1,62 @@
+    ❤️ WORK LIST:
+
+    - [ ] Add 2FA Support
+        - [ ] TOTP Support
+        - [ ] Backup Codes
+    - [ ] Fix SuperUser Creation Issue
+    - [ ] Apply Dependencies to All Routes
+    - [ ] Add Centralized Logging to All Routes
+    - [ ] Store All Passwords in Encrypted Format
+    - [ ] Export All Data into an Encrypted File
+    - [ ] Add Pagination to All Routes
+    - [ ] Add Caching to All Routes
+    - [ ] Add Rate Limiting to All Routes
+    - [ ] Add Alembic for Database Migrations
+    - [ ] Implement Input Validation and Sanitization for All Endpoints
+    - [ ] Set Up Comprehensive Error Handling and Custom Exception Handlers
+        - [ ] Implement middleware to handle exceptions uniformly across the application.
+    - [ ] Document the API Using Swagger/OpenAPI
+    - [ ] Implement Unit and Integration Tests to Ensure Code Quality
+    - [ ] Configure HTTPS with SSL/TLS for Secure Communication
+    - [ ] Set Up Cross-Origin Resource Sharing (CORS) Policies
+    - [ ] Add Security Headers to Mitigate Web Vulnerabilities
+    - [ ] Implement Session Management and Secure Session Storage
+    - [ ] Establish a Continuous Integration/Continuous Deployment (CI/CD) Pipeline
+    - [ ] Containerize the Application Using Docker
+    - [ ] Optimize Database Queries and Indexing for Performance
+    - [ ] Implement Automatic Database Backups and Recovery Procedures
+        - [ ] Establish regular backups of the database.
+        - [ ] Create a disaster recovery plan.
+    - [ ] Set Up Application Performance Monitoring, Logging Tools, and Alerts
+        - [ ] Use tools like Prometheus and Grafana for monitoring.
+        - [ ] Set up alerts for critical metrics.
+    - [ ] Conduct Security Audits and Vulnerability Assessments
+    - [ ] Review Third-Party Dependencies
+        - [ ] Regularly update third-party libraries.
+        - [ ] Check for vulnerabilities to ensure they are secure.
+    - [ ] Conduct Load Testing
+        - [ ] Use tools like Locust or JMeter to simulate traffic.
+        - [ ] Ensure the application can handle expected loads.
+    - [ ] Implement Feature Flags
+        - [ ] Control the availability of new features without deploying new code.
+    - [ ] Create User Activity Logs
+        - [ ] Maintain logs of user activities for auditing purposes.
+    - [ ] Establish Service Level Indicators (SLIs) and Service Level Objectives (SLOs)
+        - [ ] Define metrics to measure service reliability.
+    - [ ] Document Deployment Procedures
+        - [ ] Create clear documentation on deployment steps.
+        - [ ] Include required server configurations.
+    - [ ] Implement Dark Mode API Flag
+        - [ ] Provide an API flag for dark mode support if needed by the frontend.
+    - [ ] Implement Graceful Shutdown Handling
+        - [ ] Ensure the application can shut down gracefully without data loss.
+    - [ ] Implement Audit Logging for Sensitive Operations
+        - [ ] Maintain logs for sensitive actions like password changes.
+    - [ ] Implement API Versioning for Future Scalability
+    - [ ] Refactor Code for Scalability and Maintainability
+    - [ ] Plan for Internationalization (i18n) and Localization (l10n) Support
+    - [ ] Ensure Compliance with Data Protection Regulations (e.g., GDPR)
+    - [ ] Implement Load Balancing and Scaling Strategies
+    - [ ] Conduct Code Reviews and Enforce Coding Standards
 
 
-**Database Structure (Conceptual):**
-
-
-| Column             | Data Type        | Description                                                                                                                                                                                                                                                           |
-| ------------------ | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `u_id`             | UUID             | Unique identifier for each user.                                                                                                                                                                                                                                      |
-| `username`         | VARCHAR(255)     | User's username or email address.                                                                                                                                                                                                                                         |
-| `password_hash`    | VARCHAR(255)     | Hashed and salted master password using a strong hashing algorithm (e.g., Argon2id). *Crucially, this is NOT used to encrypt the vault.*                                                                                                                                |
-| `password_salt`    | BYTEA            | Random salt used for password hashing.                                                                                                                                                                                                                                 |
-| `created_at`       | TIMESTAMP        | Timestamp of account creation.                                                                                                                                                                                                                                          |
-| `updated_at`       | TIMESTAMP        | Timestamp of last account update.                                                                                                                                                                                                                                       |
-| `recovery_email`   | VARCHAR(255)     | Recovery email address (used for password resets, if implemented). Consider encrypting this as well.        
-
-
-Add Later !!
-| `two_factor_data`  | JSONB            | Stores 2FA configuration (e.g., TOTP secret, backup codes). Encrypt this data.                                                                                                                                                                                          |
