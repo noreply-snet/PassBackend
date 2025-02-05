@@ -37,6 +37,7 @@ app = FastAPI(lifespan=lifespan)
 # Configure CORS middleware
 origins = [
     "http://localhost:4200",  # Add your Angular frontend origin here
+    "https://medhamitro.onrender.com",  # Add server Angular frontend origin here
 ]
 
 app.add_middleware(

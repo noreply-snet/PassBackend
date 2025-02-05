@@ -7,31 +7,36 @@ from sqlalchemy.exc import IntegrityError
 from uuid import UUID
 from ..services.utills import get_password_hash
 
-
 def create_user(db: Session, user: UserCreate):
-    # Hash the password before storing it in the database
     hashed_password = get_password_hash(user.password)
-    db_user = User(email=user.email, password=hashed_password,)
+    db_user = User(email=user.email, password=hashed_password)
+    
+    # Assign "User" role by default
+    user_role = db.query(Role).filter(Role.name == "User").first()
+    if not user_role:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Default role 'User' not found in database."
+        )
+    db_user.role = user_role
+    
     try:
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
         return db_user
     except IntegrityError as e:
-        # Assuming the duplicate email constraint is on the 'email' column
         if "email" in str(e):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Email already registered",
             )
-        # Handle other IntegrityErrors if necessary, or re-raise
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error"
         ) from e
 
 
 def create_super_user(db: Session, email: str, password: str):
-    # Hash the password and create a superuser with elevated privileges
     hashed_password = get_password_hash(password)
     db_user = User(
         email=email, 
@@ -39,20 +44,28 @@ def create_super_user(db: Session, email: str, password: str):
         is_superuser=True,
         is_staff=True,
         is_active=True
+    )
+    
+    # Assign "Super_Admin" role by default
+    super_admin_role = db.query(Role).filter(Role.name == "Super_Admin").first()
+    if not super_admin_role:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Default role 'Super_Admin' not found in database."
         )
+    db_user.role = super_admin_role
+    
     try:
         db.add(db_user)
         db.commit()
         db.refresh(db_user)
         return db_user
     except IntegrityError as e:
-        # Assuming the duplicate email constraint is on the 'email' column
         if "email" in str(e):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Email already registered",
             )
-        # Handle other IntegrityErrors if necessary, or re-raise
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Database error"
         ) from e

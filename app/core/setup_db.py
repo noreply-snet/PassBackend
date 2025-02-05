@@ -28,7 +28,7 @@ def init_db():
         "Admin": admin_permissions,
         "User": user_permissions,
         "Locked-User": locked_user_permissions,
-        "Super Admin": admin_permissions | {"delete_user"},  # Super Admin can delete users
+        "Super_Admin": admin_permissions | {"delete_user"},  # Super Admin can delete users
     }
 
     existing_permissions = {p.name: p for p in db.query(Permission).all()}
