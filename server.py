@@ -1,7 +1,9 @@
 from contextlib import asynccontextmanager
 from threading import Thread
 from fastapi import FastAPI
+from fastapi.middleware import Middleware
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 from app.apis.auth import auth_api
 from app.core.setup_db import init_db
@@ -30,8 +32,17 @@ async def lifespan(app: FastAPI):  # Accept the app instance
     print("Application shutdown")
 
 
+middleware = [
+    Middleware(HTTPSRedirectMiddleware)
+]
+
+
 # Attach lifespan to FastAPI
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(
+    lifespan=lifespan
+    # middleware for CSRF Protection (BEST FOR PRODUCTION)
+    # middleware=middleware
+    )
 
 
 # Configure CORS middleware

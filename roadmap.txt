@@ -1,9 +1,9 @@
     ❤️ WORK LIST:
-
+    - [ ] For Revocation Token Store hashed refresh tokens
+    - [ ] Fix SuperUser Creation Issue
     - [ ] Add 2FA Support
         - [ ] TOTP Support
         - [ ] Backup Codes
-    - [ ] Fix SuperUser Creation Issue
     - [ ] Apply Dependencies to All Routes
     - [ ] Add Centralized Logging to All Routes
     - [ ] Store All Passwords in Encrypted Format

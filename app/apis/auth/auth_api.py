@@ -35,8 +35,10 @@ async def login_for_access_token(
         httponly=True,       # Prevents JavaScript access
         expires=datetime.now(timezone.utc) + timedelta(days=30), # Set cookie expiration
         secure=True,         # Only send cookie over HTTPS
-        samesite="strict"     # Restricts cross-site sending of cookie
+        samesite="strict",     # Restricts cross-site sending of cookie
+        path="/auth/refresh-token"  # Only send for refresh requests
     )
+
     # Return the access token (refresh token remains in the cookie)
     return {
         "access_token": access_token,
@@ -74,8 +76,10 @@ async def refresh_access_token(
         expires=datetime.now(timezone.utc) + timedelta(days=30),
         httponly=True,
         secure=True,
-        samesite="strict"
+        samesite="strict",
+        path="/auth/refresh-token"  # Only send for refresh requests
     )
+
     return {
         "access_token": new_access_token,
         "token_type": "bearer",
