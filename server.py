@@ -38,6 +38,7 @@ app = FastAPI(lifespan=lifespan)
 origins = [
     "http://localhost:4200",  # Add your Angular frontend origin here
     "https://medhamitro.onrender.com",  # Add server Angular frontend origin here
+    "http://127.0.0.1",
 ]
 
 app.add_middleware(
